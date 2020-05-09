@@ -26,7 +26,7 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: .config
+  # CONFIG_FILE: .config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   SSH_ACTIONS: false
@@ -74,10 +74,36 @@ jobs:
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
+    - name: Generate configuration file
+      run: |
+        rm -f ./.config*
+        touch ./.config
+
+        cat >> .config <<EOF
+        CONFIG_TARGET_ramips=y
+        CONFIG_TARGET_ramips_mt7621=y
+        CONFIG_TARGET_ramips_mt7621_DEVICE_phicomm_k2p=y
+        CONFIG_TARGET_BOARD="ramips"
+        CONFIG_TARGET_SUBTARGET="mt7621"
+        CONFIG_TARGET_PROFILE="DEVICE_phicomm_k2p"
+        CONFIG_TARGET_ARCH_PACKAGES="mipsel_24kc"
+        # CONFIG_PACKAGE_dnsmasq is not set
+        CONFIG_PACKAGE_dnsmasq-full=y
+        CONFIG_PACKAGE_openssh-sftp-server=y
+        CONFIG_PACKAGE_luci=y
+        CONFIG_LUCI_LANG_zh_Hans=y
+        CONFIG_PACKAGE_luci-compat=y
+        CONFIG_PACKAGE_luci-theme-material=y
+        CONFIG_PACKAGE_luci-app-openclash=y
+        EOF
+
+        sed -i 's/^[ \t]*//g' ./.config
+        make defconfig
+
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        # [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
         cd openwrt
         ../$DIY_P2_SH
