@@ -30,7 +30,7 @@ env:
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   SSH_ACTIONS: false
-  SSH_ACTIONS_DEBUG: false
+  SSH_ACTIONS_DEBUG: true
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
@@ -47,6 +47,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
+
+    - name: GITSET
+      run: |
+        git config --global user.email "env.USEREMAIL"
+        git config --global user.name "env.USERNAME"
 
     - name: SSH connection to Actions (Debug)
       uses: P3TERX/debugger-action@master
@@ -177,7 +182,7 @@ jobs:
         ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
         echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
 
-    - name: push firmware
+    - name: Push firmware
       run: |
         cp -rf openwrt/bin/targets/ramips/mt7621/* mt7621/
         git config --global user.email "env.USEREMAIL"
