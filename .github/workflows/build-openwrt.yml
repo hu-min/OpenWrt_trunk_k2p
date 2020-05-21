@@ -50,8 +50,8 @@ jobs:
 
     - name: GITSET
       run: |
-        git config --global user.email "env.USEREMAIL"
-        git config --global user.name "env.USERNAME"
+        git config --global user.email "${{ env.USEREMAIL }}"
+        git config --global user.name "${{ env.USERNAME }}"
 
     - name: SSH connection to Actions (Debug)
       uses: P3TERX/debugger-action@master
