@@ -35,6 +35,8 @@ env:
   UPLOAD_COWTRANSFER: false
   UPLOAD_WETRANSFER: false
   TZ: Asia/Shanghai
+  USERNAME: Orokapei
+  USEREMAIL: lmjzhizun@gmail.com
 
 jobs:
   build:
@@ -174,6 +176,8 @@ jobs:
       run: |
         mkdir mt7621
         cp -rf openwrt/bin/targets/ramips/mt7621/* mt7621/
+        git config --global user.email "env.USEREMAIL"
+        git config --global user.name "env.USERNAME"
         git add mt7621/
         git commit -m "update firmware"
         git push origin master
