@@ -30,7 +30,7 @@ env:
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   SSH_ACTIONS: false
-  SSH_ACTIONS_DEBUG: true
+  SSH_ACTIONS_DEBUG: false
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
@@ -47,11 +47,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-
-    - name: GITSET
-      run: |
-        git config --global user.email "${{ env.USEREMAIL }}"
-        git config --global user.name "${{ env.USERNAME }}"
 
     - name: SSH connection to Actions (Debug)
       uses: P3TERX/debugger-action@master
@@ -185,8 +180,8 @@ jobs:
     - name: Push firmware
       run: |
         cp -rf openwrt/bin/targets/ramips/mt7621/* mt7621/
-        git config --global user.email "env.USEREMAIL"
-        git config --global user.name "env.USERNAME"
+        git config --global user.email "${{ env.USEREMAIL }}"
+        git config --global user.name "${{ env.USERNAME }}"
         git add mt7621/
         git commit -m "update firmware"
         git push origin master
