@@ -174,7 +174,6 @@ jobs:
 
     - name: push firmware
       run: |
-        mkdir mt7621
         cp -rf openwrt/bin/targets/ramips/mt7621/* mt7621/
         git config --global user.email "env.USEREMAIL"
         git config --global user.name "env.USERNAME"
