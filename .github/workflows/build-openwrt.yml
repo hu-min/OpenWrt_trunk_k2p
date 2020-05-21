@@ -173,6 +173,7 @@ jobs:
     - name: push firmware
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_WETRANSFER == 'true' && !cancelled()
       run: |
+        mkdir mt7621
         cp -rf openwrt/bin/targets/ramips/mt7621/* mt7621/
         git add mt7621/
         git commit -m "update firmware"
