@@ -94,7 +94,7 @@ logd - 2019-12-31-0e34af14-3
 lua - 5.1.5-7
 luci - git-20.152.29936-4e20247
 luci-app-firewall - git-20.152.29936-4e20247
-luci-app-openclash - 0.38.4-beta
+luci-app-openclash - 0.38.5-beta
 luci-app-opkg - git-20.152.29936-4e20247
 luci-base - git-20.152.29936-4e20247
 luci-compat - git-20.152.29936-4e20247
